@@ -44,6 +44,7 @@ class Analyser:
 
 
 def main():
+    
     raw_input = input('Input: ')
 
     analyser_letters = Analyser(raw_input, 'l')
