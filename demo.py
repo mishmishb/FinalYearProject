@@ -1,5 +1,6 @@
 import logging
 import re
+import sys
 
 logging.basicConfig(
     filename='test.log',
@@ -28,31 +29,58 @@ class Analyser:
 
     def find_characters(self):
         if self.looking_for == 'l':
-            return re.findall('[a-zA-Z]', self.pass_string)
+            character_list = []
+            for i in list(self.pass_string):
+                if i.isalpha():
+                    character_list.extend(i)
+            return character_list
         elif self.looking_for == 'n':
-            return re.findall('[0-9]', self.pass_string)
+            number_list = []
+            for i in list(self.pass_string):
+                if i.isdigit():
+                    number_list.extend(i)
+            return number_list
         elif self.looking_for == 's':
-            return re.findall(r'[-!$%^&*()_+|~=`{}\[\]:";\'<>?,.\\/]', self.pass_string)
+            symbol_list = []
+            for i in list(self.pass_string):
+                if not (i.isalpha() or i.isdigit()):
+                    symbol_list.extend(i)
+            return symbol_list
 
     def find_position(self):
         if self.looking_for == 'l':
-            return [(str(i + 1), char) for i, char in enumerate(self.pass_string) if char.isalpha()]
+            return [
+            (str(i + 1), char) for i, char in enumerate(self.pass_string)
+            if char.isalpha()]
         elif self.looking_for == 'n':
-            return [(str(i + 1), num) for i, num in enumerate(self.pass_string) if num.isdigit()]
+            return [
+            (str(i + 1), num) for i, num in enumerate(self.pass_string)
+            if num.isdigit()]
         elif self.looking_for == 's':
-            return [(str(i + 1), sym) for i, sym in enumerate(self.pass_string) if not (sym.isalpha() or sym.isdigit())]
+            return [
+            (str(i + 1), sym) for i, sym in enumerate(self.pass_string)
+            if not (sym.isalpha() or sym.isdigit())]
+
+
+def input_func():
+    raw_input = input('Input: ')
+    for i in list(raw_input):
+        if i == ' ':
+            print("Passwords must not contain spaces")
+            input_func()
+    return raw_input
 
 
 def main():
-    
-    raw_input = input('Input: ')
 
-    analyser_letters = Analyser(raw_input, 'l')
-    analyser_numbers = Analyser(raw_input, 'n')
-    analyser_symbols = Analyser(raw_input, 's')
+    password = input_func()
 
-    logging_def.info(f'The length of \'{raw_input}\' is {len(raw_input)}')
-    logging_def.info(f'As a list it looks like this {list(raw_input)}')
+    analyser_letters = Analyser(password, 'l')
+    analyser_numbers = Analyser(password, 'n')
+    analyser_symbols = Analyser(password, 's')
+
+    logging_def.info(f'The length of \'{password}\' is {len(password)}')
+    logging_def.info(f'As a list it looks like this {list(password)}')
 
     for i in (analyser_letters, analyser_numbers, analyser_symbols):
         if i.find_characters():
