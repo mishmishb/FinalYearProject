@@ -49,16 +49,13 @@ class Analyser:
 
     def find_position(self):
         if self.looking_for == 'l':
-            return [
-            (str(i + 1), char) for i, char in enumerate(self.pass_string)
+            return [(str(i + 1), char) for i, char in enumerate(self.pass_string)
             if char.isalpha()]
         elif self.looking_for == 'n':
-            return [
-            (str(i + 1), num) for i, num in enumerate(self.pass_string)
+            return [(str(i + 1), num) for i, num in enumerate(self.pass_string)
             if num.isdigit()]
         elif self.looking_for == 's':
-            return [
-            (str(i + 1), sym) for i, sym in enumerate(self.pass_string)
+            return [(str(i + 1), sym) for i, sym in enumerate(self.pass_string)
             if not (sym.isalpha() or sym.isdigit())]
 
 
@@ -84,7 +81,8 @@ def main():
 
     for i in (analyser_letters, analyser_numbers, analyser_symbols):
         if i.find_characters():
-            logging_def.info(f'The {i.character_type()}s in this password are: {i.find_characters()}')
+            logging_def.info(f'The {i.character_type()}s in this password are: '
+            f'{i.find_characters()}')
             for j in i.find_position():
                 ordinal_indicator = list(j[0])[-1]
                 if ordinal_indicator == '1':
