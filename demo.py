@@ -81,6 +81,11 @@ def main():
 
     for i in (analyser_letters, analyser_numbers, analyser_symbols):
         if i.find_characters():
+            character_length = len(i.find_characters())
+            if character_length > 1:
+                logging_def.info(f'There are {character_length} {i.character_type()}s in this password')
+            else:
+                logging_def.info(f'There is 1 {i.character_type()} in this password')
             logging_def.info(f'The {i.character_type()}s in this password are: '
             f'{i.find_characters()}')
             for j in i.find_position():
@@ -96,6 +101,9 @@ def main():
             logging_def.info('\n')
         else:
             logging_def.info(f'There are no {i.character_type()}s in this password')
+
+    logging_def.info('\n')
+    logging_def.info('\n')
 
 
 if __name__ == "__main__":
